@@ -13,19 +13,25 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
-		int n = Integer.parseInt(br.readLine());
-		Queue<Integer> queue = new LinkedList<>(); 
+		String s[] = br.readLine().split(" ");
+		int n = Integer.parseInt(s[0]);
+		int k = Integer.parseInt(s[1]);
 		
-		for (int i = 1; i <= n; i++) {
+		Queue<Integer> queue = new LinkedList<Integer>();
+		
+		for (int i = 1;  i<= n; i++)
 			queue.add(i);
-		}
-				
-		while(queue.size()> 1) {
-			queue.poll();
-			queue.add(queue.poll());
-		}
-		bw.write(queue.peek()+"\n");
 		
+		bw.write("<");
+		for(int i = 1; i<= n; i++) {
+			for (int j = 0; j < k-1; j++) 
+				queue.add(queue.poll());
+		
+			bw.write(String.valueOf(queue.poll()));
+			if(i < n) 
+				bw.write(", ");
+		}
+		bw.write(">");
 		bw.flush();
 		bw.close();
 	}
