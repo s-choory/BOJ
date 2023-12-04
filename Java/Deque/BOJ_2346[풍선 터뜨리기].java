@@ -3,27 +3,55 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 
 public class Main {
-	
-	public static void main(String[] args) throws IOException {
 
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Deque<Balloon> deque = new ArrayDeque<>();
+		StringBuilder sb = new StringBuilder();
 		
 		int n = Integer.parseInt(br.readLine());
-		Deque<Integer> deque = new ArrayDeque<>();
-
-		String [] str = br.readLine().split(" ");
-		int [] stri = new int[n];
+		String [] arr = br.readLine().split(" ");
+		br.close();
 		
-		for (int i = 0; i < n; i++) {
-			deque.add(i+1);
-			stri[i] = Integer.parseInt(str[i]);
+		sb.append("1 ");
+		
+		for(int i =1; i<n; i++) {
+			Balloon balloon = new Balloon(i+1, Integer.parseInt(arr[i]));
+			deque.addLast(balloon);
 		}
+		Balloon next = new Balloon(1, Integer.parseInt(arr[0]));
 		
-		System.out.println(deque);
-		
+		while(!deque.isEmpty()) {
+			if(next.numValue>0) {
+				for(int i = 1; i<next.numValue; i++) {
+					deque.add(deque.poll());
+				}
+				Balloon result = deque.poll();
+				sb.append(result.index+" ");
+				next = result;
+			}else {
+				for(int i = 1; i < -next.numValue; i++) {
+					deque.addFirst(deque.pollLast());
+				}
+				Balloon result = deque.pollLast();
+				sb.append(result.index+" ");
+				next = result;
+			}
+		}
+		System.out.println(sb);
 	}
 	
-}
+	static class Balloon {
+		int index;
+		int numValue;
 
+		public Balloon(int index, int numValue) {
+			super();
+			this.index = index;
+			this.numValue = numValue;
+		}
+	}
+}
