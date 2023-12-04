@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class Main {
+	
+	static Stack<Integer> stack = new Stack<>();
+	static Stack<Integer> stack_sub = new Stack<>();
+	
+	public static void main(String[] args) throws IOException {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		int m = n;
+		String arr[] = br.readLine().split(" ");
+		
+		for (int i = n-1; i>=0; i--) {
+			stack.push(Integer.parseInt(arr[i]));
+		}
+		
+		int x = 1;
+		int [] arri = new int[n];
+		
+		while(n-- > 0) {
+			int p = stack.pop();
+			if(x == p) {
+				arri[x-1] = p;
+				x++;
+			}else {
+				stack_sub.push(p);
+			}
+		}
+		
+		
+		while(stack_sub.size() > 0) {
+			arri[x-1] = stack_sub.pop();
+			x++;
+		}
+		
+		
+		int l = arri.length;
+		x--;
+		String str = "Nice";
+		while(x-- > 1) {
+			if(m != arri[x]) {
+				str = "Sad";
+				break;
+			}
+			m--;
+		}
+		System.out.println(str);
+	}
+	
+}
